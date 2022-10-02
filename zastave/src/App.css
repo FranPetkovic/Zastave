@@ -1,9 +1,71 @@
+:root{
+  --pozadina:#202c37;
+  --glavnaBoja:#2b3743;
+  --bojaFonta:#edf2f4;
+}
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+.header{
+  height: 75px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--glavnaBoja);
+  display: flex;
+  padding-left: 2vw;
+  align-items: center;
+}
 body{
-  background-color: #1a1a1a;
+  background-color: var(--pozadina);
+  color: var(--bojaFonta);
+  padding: 5vw;
+}
+.trazilica{
+  margin: 30px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+.grid{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5vw;
+  align-items: center;
+}
+.drzava{
+  background-color: var(--glavnaBoja);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.podatki{
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+}
+.slikaZastave{
+  width: 100%;
+}
+h2{
   color: white;
+}
+input{
+  border: none;
+  background-color: var(--glavnaBoja);
+  color: var(--bojaFonta);
+}
+.option{
+  border: none;
+  background-color: var(--glavnaBoja);
+  color: var(--bojaFonta);
+}
+@media only screen and (max-width: 600px) {
+  .grid{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }
