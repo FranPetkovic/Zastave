@@ -5,9 +5,11 @@ import axios from 'axios';
 function App() {
 
   let rezultati1=[]
+  let rezultati3=[]
   let rezultati2=[]
   const [rezulti, setRezultati] = useState([])
   const [currentValue, setCurrentValue] = useState("")
+  const [currentValue2, setCurrentValue2] = useState("")
   const [valueState,setValueState] = useState("")
 
   function handleChange(evt) {
@@ -21,45 +23,60 @@ function App() {
         )
         rezultati1=[result.data]
         rezultati2=rezultati1[0]
+        // rezultati3=rezultati2
+        // rezultati3=rezultati2
         setRezultati(rezultati1[0])
       }
     fetchData()
   },[])
   
   const [currentFruit, setCurrentFruit] = useState("0")
+  const [currentFruit2, setCurrentFruit2] = useState("")
       
   const changeFruit = (newFruit) => {
     setCurrentFruit(newFruit)
   }
 
+  const changeFruit2 = (newFruit) => {
+    setCurrentFruit2(newFruit)
+    rezultati2=rezultati3
+    if(newFruit==="All"){
+        setRezultati(rezultati2)
+    }
+    
+    if(newFruit==="Eu"){
+      setRezultati(rezultati2.filter(word => word.region === "Europe"))
+      
+    }
+    // if(newFruit==="Af"){
+    //   setRezultati(rezultati2.filter(word => word.region === "Africa"))
+    // }
+  }
+
   if(currentFruit==="0"){
-    rezultati1=rezulti
     rezultati2=rezulti
     
     rezultati2.sort((a,b) => (a.name.common > b.name.common) ? 1 : ((b.name.common > a.name.common) ? -1 : 0));
   }
   else if(currentFruit==="1"){
-    rezultati1=rezulti
     rezultati2=rezulti
     
     rezultati2.sort((a,b) => (a.name.common > b.name.common) ? 1 : ((b.name.common > a.name.common) ? -1 : 0));
     rezultati2.reverse();
   }
   else if(currentFruit==="2"){
-    rezultati1=rezulti
     rezultati2=rezulti
     
     rezultati2.sort((a,b) => (a.population > b.population) ? 1 : ((b.population > a.population) ? -1 : 0));
     rezultati2.reverse();
   }
   else if(currentFruit==="3"){
-    rezultati1=rezulti
     rezultati2=rezulti
     
     rezultati2.sort((a,b) => (a.population > b.population) ? 1 : ((b.population > a.population) ? -1 : 0));
   }
 
-  return (
+return (
     <div>
         {/* <div className='header'>
           <h1>Drzave svijeta</h1>
@@ -69,6 +86,12 @@ function App() {
             value={currentValue}
             onChange={(evt) => handleChange(evt)}
           />
+          <button onClick={()=>{
+            console.log(rezultati1)
+            console.log(rezultati2)
+            console.log(rezultati3)
+            console.log(rezulti)
+          }}></button>
           <div>
             <select className='option'
             onChange={(event) => changeFruit(event.target.value)}
@@ -79,13 +102,17 @@ function App() {
               <option value="2"> Populacija: silazno </option>
               <option value="3"> Populacija: uzlazno </option>
             </select>
-            <select className='option'>
-              <option> Europa </option>
-              <option> Afrika </option>
-              <option> Sjeverna Amerika </option>
-              <option> Juzna Amerika </option>
-              <option> Azika </option>
-              <option> Oceania </option>
+            <select className='option'
+            onChange={(event) => changeFruit2(event.target.value)}
+            value={currentFruit2}
+            >
+              <option value={"All"}> Sve </option>
+              <option value={"Eu"}> Europa </option>
+              <option value={"Af"}> Afrika </option>
+              <option value={"Sa"}> Sjeverna Amerika </option>
+              <option value={"Ja"}> Juzna Amerika </option>
+              <option value={"Az"}> Azika </option>
+              <option value={"Oc"}> Oceania </option>
             </select>
           </div>
         </div>
