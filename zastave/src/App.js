@@ -5,16 +5,27 @@ import axios from 'axios';
 function App() {
 
   let rezultati1=[]
-  let rezultati3=[]
   let rezultati2=[]
   const [rezulti, setRezultati] = useState([])
+  const [rezulti2, setRezultati2] = useState([])
   const [currentValue, setCurrentValue] = useState("")
   const [currentValue2, setCurrentValue2] = useState("")
   const [valueState,setValueState] = useState("")
 
   function handleChange(evt) {
+    changeFruit2("All")
+    rezultati2=[]
     setCurrentValue(evt.currentTarget.value)
-  }
+    rezulti2.map((item)=>{
+      item.name.common=item.name.common.charAt(0).toLowerCase() + item.name.common.slice(1)
+      console.log(item.name.common)
+      if(item.name.common.startsWith(evt.currentTarget.value) || (item.name.common.includes(evt.currentTarget.value))){
+        rezultati2.push(item)
+      }
+    })
+    setRezultati(rezultati2)
+    //  console.log(rezulti2)
+}
   
   useEffect(() => {
     const fetchData = async () => {
@@ -22,14 +33,11 @@ function App() {
         'https://restcountries.com/v3.1/all',
         )
         rezultati1=[result.data]
-        rezultati2=rezultati1[0]
-        // rezultati3=rezultati2
-        // rezultati3=rezultati2
         setRezultati(rezultati1[0])
+        setRezultati2(rezultati1[0])
       }
     fetchData()
   },[])
-  
   const [currentFruit, setCurrentFruit] = useState("0")
   const [currentFruit2, setCurrentFruit2] = useState("")
       
@@ -39,18 +47,26 @@ function App() {
 
   const changeFruit2 = (newFruit) => {
     setCurrentFruit2(newFruit)
-    rezultati2=rezultati3
+
     if(newFruit==="All"){
-        setRezultati(rezultati2)
+        setRezultati(rezulti2)
     }
     
-    if(newFruit==="Eu"){
-      setRezultati(rezultati2.filter(word => word.region === "Europe"))
-      
+    else if(newFruit==="Eu"){
+        setRezultati(rezulti2.filter(word => word.region === "Europe"))
     }
-    // if(newFruit==="Af"){
-    //   setRezultati(rezultati2.filter(word => word.region === "Africa"))
-    // }
+    else if(newFruit==="Af"){
+        setRezultati(rezulti2.filter(word => word.region === "Africa"))
+    }
+    else if(newFruit==="Sa"){
+        setRezultati(rezulti2.filter(word => word.region === "Americas"))
+    }
+    else if(newFruit==="Az"){
+        setRezultati(rezulti2.filter(word => word.region === "Asia"))
+    }
+    else if(newFruit==="Oc"){
+        setRezultati(rezulti2.filter(word => word.region === "Oceania"))
+    }
   }
 
   if(currentFruit==="0"){
@@ -78,20 +94,14 @@ function App() {
 
 return (
     <div>
-        {/* <div className='header'>
+        <div className='header'>
           <h1>Drzave svijeta</h1>
-        </div> */}
+        </div> 
         <div className='trazilica'>
           <input
             value={currentValue}
             onChange={(evt) => handleChange(evt)}
           />
-          <button onClick={()=>{
-            console.log(rezultati1)
-            console.log(rezultati2)
-            console.log(rezultati3)
-            console.log(rezulti)
-          }}></button>
           <div>
             <select className='option'
             onChange={(event) => changeFruit(event.target.value)}
@@ -109,9 +119,8 @@ return (
               <option value={"All"}> Sve </option>
               <option value={"Eu"}> Europa </option>
               <option value={"Af"}> Afrika </option>
-              <option value={"Sa"}> Sjeverna Amerika </option>
-              <option value={"Ja"}> Juzna Amerika </option>
-              <option value={"Az"}> Azika </option>
+              <option value={"Sa"}> Amerika </option>
+              <option value={"Az"}> Azija </option>
               <option value={"Oc"}> Oceania </option>
             </select>
           </div>
@@ -122,7 +131,8 @@ return (
                 <div className='drzava'>
                   <img src={item.flags.svg} className='slikaZastave'></img>
                   <div className='podatki'>
-                    <h2>{item.name.common}</h2>
+                    
+                    <h2>{item.name.common=item.name.common.charAt(0).toUpperCase() + item.name.common.slice(1)}</h2>
                     <p>Populacija: {item.population}</p>
                     <p>Regija: {item.region}</p>
                     <p>Glavni grad: {item.capital}</p>
